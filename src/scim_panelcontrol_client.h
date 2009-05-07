@@ -14,10 +14,11 @@ class PanelControlClient
 	const PanelControlClient & operator = (const PanelControlClient &);
 
 	public:
-			PanelControlClient	();
-			~PanelControlClient	();
-	int 	open_connection();
-	void 	close_connection	();
+			PanelControlClient		();
+			~PanelControlClient		();
+	int 	open_connection			();
+	void 	close_connection		();
+	bool 	request_factory_menu	(void);
 };
 
 }

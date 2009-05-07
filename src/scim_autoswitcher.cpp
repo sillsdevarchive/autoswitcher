@@ -30,6 +30,10 @@ int main (int argc, char *argv [])
 
 	cout<<"Opening Connection"<<endl;
 	panelControl->open_connection();
+
+	cout<<"Requesting Factory Menu"<<endl;
+	panelControl->request_factory_menu();
+
 	cout<<"Closing Connection"<<endl;
 	panelControl->close_connection();
 	delete panelControl;
