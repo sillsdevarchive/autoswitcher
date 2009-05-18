@@ -24,7 +24,7 @@ using namespace std;
 
 int main (int argc, char *argv [])
 {
-
+	vector<PanelFactoryInfo>* FactoryList = new vector<PanelFactoryInfo>();
 
 	PanelControlClient *panelControl = new PanelControlClient();
 
@@ -32,8 +32,9 @@ int main (int argc, char *argv [])
 	panelControl->open_connection();
 
 	cout<<"Requesting Factory Menu"<<endl;
-	panelControl->request_factory_menu();
-
+	cout << panelControl->request_factory_menu(FactoryList)<<endl;
+	delete FactoryList;
+	FactoryList = 0;
 	cout<<"Closing Connection"<<endl;
 	panelControl->close_connection();
 	delete panelControl;
