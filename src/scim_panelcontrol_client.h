@@ -23,6 +23,7 @@ class PanelControlClient
 	int 	open_connection			();
 	void 	close_connection		();
 	int 	request_factory_menu	(std::vector <PanelFactoryInfo>* FactoryList);
+	int 	change_factory			(String uuid);
 };
 
 } //namespace scim

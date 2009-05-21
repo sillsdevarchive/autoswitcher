@@ -28,8 +28,10 @@ public:
 	{
 	}
 
-int  open_connection        ()
+bool  open_connection        ()
 	{
+		bool connection_opened = false;
+
 		m_display = XOpenDisplay (NULL);
 
 		if (!m_display)
@@ -37,35 +39,16 @@ int  open_connection        ()
 
 		SocketAddress addr (scim_get_default_panel_socket_address (String DisplayString(m_display)));
 
-		if (m_socket.is_connected ()) close_connection ();
-
-		bool ret;
-		int count = 0;
-
-		// Try three times.
-		while (1) {
-			if ((ret = m_socket.connect (addr)) == false) {
-				scim_usleep (100000);
-				for (int i = 0; i < 200; ++i) {
-					if (m_socket.connect (addr)) {
-						ret = true;
-						break;
-					}
-					scim_usleep (100000);
-				}
+		if (m_socket.connect (addr)){
+			if (scim_socket_open_connection (m_socket_magic_key, String ("PanelController"), String ("Panel"), m_socket, m_socket_timeout)){
+				connection_opened = true;
 			}
-
-			if (ret && scim_socket_open_connection (m_socket_magic_key, String ("PanelController"), String ("Panel"), m_socket, m_socket_timeout))
-				break;
-
-			m_socket.close ();
-
-			if (count++ >= 3) break;
-
-			scim_usleep (100000);
+			else{
+				if (m_socket.is_connected ()) close_connection ();
+			}
 		}
 
-		return m_socket.get_id ();
+		return connection_opened;
 	}
 
 	void close_connection       ()
@@ -78,11 +61,9 @@ int  open_connection        ()
 	{
 		int return_status = 0;
 		SCIM_DEBUG_MAIN(1) << "PanelControlClient::request_factory_menu ()\n";
-		//focus_in()?
 		prepare();
 		m_send_trans.put_command (SCIM_TRANS_CMD_CONTROLLER_REQUEST_FACTORY_MENU);
 		send();
-		//focus_out()?
 
 		cout << "Transaction sent!" << endl;
 
@@ -91,7 +72,7 @@ int  open_connection        ()
 		if (return_status == 0){
 			cout << "Got a response from the panel!" << endl;
 
-			return_status = verify_tansaction_header(SCIM_TRANS_CMD_PANEL_SHOW_FACTORY_MENU);
+			return_status = verify_transaction_header(SCIM_TRANS_CMD_PANEL_SHOW_FACTORY_MENU);
 			if (return_status == 0){
 				cout << "Happily read the transaction header!" << endl;
 
@@ -101,6 +82,37 @@ int  open_connection        ()
 					info.lang = scim_get_normalized_language (info.lang);
 					FactoryList->push_back (info);
 					cout << "Happily read a factory!" << endl;
+					cout << info.name << info.uuid << endl;
+				}
+			}
+		}
+
+		return return_status;
+	}
+
+	int change_factory (String uuid_to_change_to)
+	{
+		int return_status = 0;
+		cout << "PanelControlClient::change_factory () to " << uuid_to_change_to << "\n";
+		prepare();
+		m_send_trans.put_command (SCIM_TRANS_CMD_CONTROLLER_CHANGE_FACTORY);
+		m_send_trans.put_data (uuid_to_change_to);
+		send();
+
+		return_status = wait_for_response_from_agent();
+
+		if (return_status == 0){
+			cout << "Got a response from the panel!" << endl;
+
+			return_status = verify_transaction_header(SCIM_TRANS_CMD_PANEL_UPDATE_FACTORY_INFO);
+			if (return_status == 0){
+				cout << "Happily read the transaction header!" << endl;
+
+				PanelFactoryInfo info;
+				if (m_recv_trans.get_data (info.uuid) && m_recv_trans.get_data (info.name) &&
+					m_recv_trans.get_data (info.lang) && m_recv_trans.get_data (info.icon)) {
+					cout << "Switched to new Factory:  uuid=" << info.uuid << " name=" << info.name << "\n";
+					info.lang = scim_get_normalized_language (info.lang);
 				}
 			}
 		}
@@ -119,7 +131,7 @@ int  open_connection        ()
 		FD_SET(panel_fd, &active_fds);
 
 		timeout.tv_sec = 0;
-		timeout.tv_usec = 10 * 1000; //10 milliseconds timeout
+		timeout.tv_usec = 3000 * 1000; //1000 milliseconds timeout
 
 		int select_result = select (panel_fd + 1, &active_fds, NULL, NULL, &timeout);
 
@@ -132,10 +144,10 @@ int  open_connection        ()
 		return return_status;
 	}
 
-	int verify_tansaction_header(int expected_cmd){
+	int verify_transaction_header(int expected_cmd){
 		int return_status = 0;
 		if (!m_socket.is_connected () || !m_recv_trans.read_from_socket (m_socket, m_socket_timeout))
-			return false;
+			return SCIM_AUTOSWITCHER_PANEL_SOCKET_ERROR;
 
 		int cmd_type;
 		int cmd;
@@ -205,4 +217,10 @@ PanelControlClient::request_factory_menu (std::vector <PanelFactoryInfo>* Factor
 {
 	return m_impl->request_factory_menu(FactoryList);
 }
+
+int
+PanelControlClient::change_factory (String uuid){
+	return m_impl->change_factory(uuid);
+}
+
 }	//namespace scim
