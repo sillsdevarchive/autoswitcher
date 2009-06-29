@@ -120,6 +120,35 @@ bool  open_connection        ()
 		return return_status;
 	}
 
+	int request_current_factory ()
+	{
+		int return_status = 0;
+		cout << "PanelControlClient::request_current_factory ()\n";
+		prepare();
+		m_send_trans.put_command (SCIM_TRANS_CMD_CONTROLLER_GET_CURRENT_FACTORY);
+		send();
+
+		return_status = wait_for_response_from_agent();
+
+		if (return_status == 0){
+			cout << "Got a response from the panel!" << endl;
+
+			return_status = verify_transaction_header(SCIM_TRANS_CMD_PANEL_RETURN_CURRENT_FACTORY_INFO);
+			if (return_status == 0){
+				cout << "Happily read the transaction header!" << endl;
+
+				PanelFactoryInfo info;
+				if (m_recv_trans.get_data (info.uuid) && m_recv_trans.get_data (info.name) &&
+					m_recv_trans.get_data (info.lang) && m_recv_trans.get_data (info.icon)) {
+					info.lang = scim_get_normalized_language (info.lang);
+					cout << "Current Factory is:  uuid=" << info.uuid << " name=" << info.name << "\n";
+				}
+			}
+		}
+
+		return return_status;
+	}
+
 	int wait_for_response_from_agent(){
 		int return_status = 0;
 
@@ -221,6 +250,11 @@ PanelControlClient::request_factory_menu (std::vector <PanelFactoryInfo>* Factor
 int
 PanelControlClient::change_factory (String uuid){
 	return m_impl->change_factory(uuid);
+}
+
+int
+PanelControlClient::request_current_factory (){
+	return m_impl->request_current_factory();
 }
 
 }	//namespace scim

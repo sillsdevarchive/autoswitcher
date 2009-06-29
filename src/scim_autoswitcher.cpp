@@ -36,6 +36,9 @@ int main (int argc, char *argv [])
 		return 0;
 	}
 
+	cout<<"Asking for current Factory:"<<endl;
+	cout<<panelControl->request_current_factory();
+
 	cout<<"Requesting Factory Menu"<<endl;
 	cout << panelControl->request_factory_menu(factoryList)<<endl;
 	PanelFactoryInfo factoryInfo;
