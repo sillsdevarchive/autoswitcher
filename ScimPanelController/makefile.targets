@@ -1,0 +1,20 @@
+# Tool invocations
+install_files := libScimPanelController.so ../src/scim_panelcontrol_client.h
+
+install: $(install_files)
+	@echo 'Building target: $@'
+	@echo 'Copying libScimPanelController.so'
+	cp libScimPanelController.so /usr/lib
+	@echo 'Copying libScimPanelController.h'
+	cp ../src/scim_panelcontrol_client.h /usr/include/scim-1.0
+	@echo 'Finished building target: $@'
+	@echo ' '
+
+uninstall:
+	@echo 'Building target: $@'
+	@echo 'Removing libScimPanelController.so'
+	rm -f /usr/lib/libScimPanelController.so
+	@echo 'Removing libScimPanelController.so'
+	rm -f /usr/include/scim-1.0/scim_panelcontrol_client.h
+	@echo 'Finished building target: $@'
+	@echo ' '

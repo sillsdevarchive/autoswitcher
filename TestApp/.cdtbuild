@@ -3,7 +3,7 @@
 
 <ManagedProjectBuildInfo>
 <project id="autoswitcher.cdt.managedbuild.target.gnu.exe.1945120187" name="Executable (Gnu)" projectType="cdt.managedbuild.target.gnu.exe">
-<configuration artifactName="autoswitcher" cleanCommand="rm -rf" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="cdt.managedbuild.config.gnu.exe.debug.816502483" name="Debug" parent="cdt.managedbuild.config.gnu.exe.debug">
+<configuration artifactName="test_app" cleanCommand="rm -rf" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="cdt.managedbuild.config.gnu.exe.debug.816502483" name="Debug" parent="cdt.managedbuild.config.gnu.exe.debug">
 <toolChain id="cdt.managedbuild.toolchain.gnu.exe.debug.1277476217" name="GCC Tool Chain" superClass="cdt.managedbuild.toolchain.gnu.exe.debug">
 <tool id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.1634670508" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug">
 <option id="gnu.cpp.compiler.option.include.paths.1692697516" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
@@ -15,6 +15,7 @@
 <tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.812424839" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
 <option id="gnu.cpp.link.option.libs.17933094" superClass="gnu.cpp.link.option.libs" valueType="libs">
 <listOptionValue builtIn="false" value="scim-1.0"/>
+<listOptionValue builtIn="false" value="ScimPanelController"/>
 <listOptionValue builtIn="false" value="X11"/>
 </option>
 </tool>
