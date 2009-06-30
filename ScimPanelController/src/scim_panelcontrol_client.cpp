@@ -4,12 +4,11 @@
 
 #include <X11/Xlib.h>
 #include <scim.h>
+#include <scim_panel_common.h>
 #include "scim_panelcontrol_client.h"
 
 using namespace std;
-
-namespace scim
-{
+using namespace scim;
 
 class PanelControlClient::PanelControlClientImpl{
 	int				m_socket_timeout;
@@ -57,7 +56,7 @@ bool  open_connection        ()
 		m_socket_magic_key = 0;
 	}
 
-	int request_factory_menu (vector <PanelFactoryInfo>* FactoryList)
+	int request_factory_menu (vector <KeyboardProperties>* keyboardMenu)
 	{
 		int return_status = 0;
 		SCIM_DEBUG_MAIN(1) << "PanelControlClient::request_factory_menu ()\n";
@@ -76,13 +75,14 @@ bool  open_connection        ()
 			if (return_status == 0){
 				cout << "Happily read the transaction header!" << endl;
 
-				PanelFactoryInfo info;
-				while (m_recv_trans.get_data (info.uuid) && m_recv_trans.get_data (info.name) &&
-					   m_recv_trans.get_data (info.lang) && m_recv_trans.get_data (info.icon)) {
-					info.lang = scim_get_normalized_language (info.lang);
-					FactoryList->push_back (info);
+				KeyboardProperties keyboard;
+				while (m_recv_trans.get_data (keyboard.uuid) && m_recv_trans.get_data (keyboard.name) &&
+					   m_recv_trans.get_data (keyboard.language) && m_recv_trans.get_data (keyboard.pathToIcon)) {
+					keyboard.language = scim_get_normalized_language (keyboard.language);
+
+					keyboardMenu->push_back (keyboard);
 					cout << "Happily read a factory!" << endl;
-					cout << info.name << info.uuid << endl;
+					cout << keyboard.name << keyboard.uuid << endl;
 				}
 			}
 		}
@@ -90,7 +90,7 @@ bool  open_connection        ()
 		return return_status;
 	}
 
-	int change_factory (String uuid_to_change_to)
+	int change_factory (SimpleString uuid_to_change_to)
 	{
 		int return_status = 0;
 		cout << "PanelControlClient::change_factory () to " << uuid_to_change_to << "\n";
@@ -242,19 +242,17 @@ PanelControlClient::close_connection ()
 }
 
 int
-PanelControlClient::request_factory_menu (std::vector <PanelFactoryInfo>* FactoryList)
+PanelControlClient::request_factory_menu (std::vector <KeyboardProperties>* FactoryList)
 {
 	return m_impl->request_factory_menu(FactoryList);
 }
 
 int
-PanelControlClient::change_factory (String uuid){
-	return m_impl->change_factory(uuid);
+PanelControlClient::change_factory (SimpleString uuidToChangeTo){
+	return m_impl->change_factory(uuidToChangeTo);
 }
 
 int
 PanelControlClient::request_current_factory (){
 	return m_impl->request_current_factory();
 }
-
-}	//namespace scim

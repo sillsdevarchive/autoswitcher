@@ -14,9 +14,7 @@
 <tool id="cdt.managedbuild.tool.gnu.c.linker.exe.debug.960161449" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.debug"/>
 <tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.812424839" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
 <option id="gnu.cpp.link.option.libs.17933094" superClass="gnu.cpp.link.option.libs" valueType="libs">
-<listOptionValue builtIn="false" value="scim-1.0"/>
 <listOptionValue builtIn="false" value="ScimPanelController"/>
-<listOptionValue builtIn="false" value="X11"/>
 </option>
 </tool>
 <tool id="cdt.managedbuild.tool.gnu.assembler.exe.debug.1229908828" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.exe.debug"/>

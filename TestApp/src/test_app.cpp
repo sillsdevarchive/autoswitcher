@@ -1,33 +1,14 @@
-#include <scim.h>
-#include "scim_panelcontrol_client.h"
+#include <iostream>
+#include <cstdlib>
+#include <scim_panelcontrol_client.h>
 
-namespace scim{
-
-class ScimAutoSwitcher
-{
-	ScimAutoSwitcher();
-	~ScimAutoSwitcher();
-};
-
-ScimAutoSwitcher::ScimAutoSwitcher()
-{
-};
-
-ScimAutoSwitcher::~ScimAutoSwitcher()
-{
-};
-
-}
-
-using namespace scim;
 using namespace std;
 
 int main (int argc, char *argv [])
 {
 	while(1){
-	vector<PanelFactoryInfo> *factoryList = new vector<PanelFactoryInfo>();
+	vector<KeyboardProperties> *factoryList = new vector<KeyboardProperties>();
 	PanelControlClient *panelControl = new PanelControlClient();
-
 
 	cout<<"Opening Connection"<<endl;
 
@@ -41,17 +22,17 @@ int main (int argc, char *argv [])
 
 	cout<<"Requesting Factory Menu"<<endl;
 	cout << panelControl->request_factory_menu(factoryList)<<endl;
-	PanelFactoryInfo factoryInfo;
+	KeyboardProperties keyboardProperties;
 	for(unsigned int i=0;i < factoryList->size(); ++i){
-		factoryInfo = (*factoryList)[i];
-		cout << i << " " << factoryInfo.name << endl;
+		keyboardProperties = (*factoryList)[i];
+		cout << i << " " << keyboardProperties.name << endl;
 	}
 	cout << "Anything else:" << " " << (*factoryList)[0].name << endl;
 	cout << "Please select the factory you would like";
-	char selected_factory[20];
-	scanf("%s", selected_factory);
-	int selected_factory_as_int = atoi(selected_factory);
-	cout << panelControl->change_factory((*factoryList)[selected_factory_as_int].uuid);
+	char selected_keyboard[20];
+	scanf("%s", selected_keyboard);
+	int selected_keyboard_as_int = atoi(selected_keyboard);
+	cout << panelControl->change_factory((*factoryList)[selected_keyboard_as_int].uuid);
 
 	cout<<"Closing Connection"<<endl;
 	panelControl->close_connection();

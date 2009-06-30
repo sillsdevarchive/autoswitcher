@@ -15,6 +15,7 @@
 <tool id="cdt.managedbuild.tool.gnu.cpp.linker.so.debug.153511006" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.so.debug">
 <option id="gnu.cpp.link.option.libs.1856502516" superClass="gnu.cpp.link.option.libs" valueType="libs">
 <listOptionValue builtIn="false" value="scim-1.0"/>
+<listOptionValue builtIn="false" value="X11"/>
 </option>
 </tool>
 <tool id="cdt.managedbuild.tool.gnu.assembler.so.debug.1759147456" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.so.debug"/>
