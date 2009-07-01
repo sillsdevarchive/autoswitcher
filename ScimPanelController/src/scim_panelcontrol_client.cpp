@@ -11,12 +11,12 @@ using namespace std;
 using namespace scim;
 
 //forward declaration of private functions
-bool writeTransactionHeader ();
-bool sendTransaction ();
-int wait_for_response_from_agent();
-int verify_transaction_header(int expected_cmd);
-int wait_for_response_from_agent();
-int  get_connection_number  ();
+bool 	writeTransactionHeader 					();
+bool 	sendTransaction 						();
+int 	wait_for_response_from_agent			();
+int 	verify_transaction_header				(int expected_cmd);
+int 	wait_for_response_from_agent			();
+int  	get_connection_number  					();
 
 //global variables
 int				m_socket_timeout = scim_get_default_socket_timeout ();
@@ -28,7 +28,7 @@ SocketClient	m_socket;
 int 			m_send_refcount = 0;
 
 // public function
-bool  open_connection ()
+bool  OpenConnectionToScimPanel ()
 {
 	bool connection_opened = false;
 
@@ -44,20 +44,20 @@ bool  open_connection ()
 			connection_opened = true;
 		}
 		else{
-			if (m_socket.is_connected ()) close_connection ();
+			if (m_socket.is_connected ()) CloseConnectionToScimPanel ();
 		}
 	}
 
 	return connection_opened;
 }
 
-void close_connection ()
+void CloseConnectionToScimPanel ()
 {
 	m_socket.close ();
 	m_socket_magic_key = 0;
 }
 
-int request_factory_menu (vector <KeyboardProperties>* keyboardMenu)
+int GetListOfSupportedKeyboards (vector <KeyboardProperties>* keyboardMenu)
 {
 	int return_status = 0;
 	SCIM_DEBUG_MAIN(1) << "PanelControlClient::request_factory_menu ()\n";
@@ -91,7 +91,7 @@ int request_factory_menu (vector <KeyboardProperties>* keyboardMenu)
 	return return_status;
 }
 
-int change_factory (SimpleString uuid_to_change_to)
+int SetKeyboard (SimpleString uuid_to_change_to)
 {
 	int return_status = 0;
 	cout << "PanelControlClient::change_factory () to " << uuid_to_change_to << "\n";
@@ -121,7 +121,7 @@ int change_factory (SimpleString uuid_to_change_to)
 	return return_status;
 }
 
-int request_current_factory ()
+int GetCurrentKeyboard ()
 {
 	int return_status = 0;
 	cout << "PanelControlClient::request_current_factory ()\n";

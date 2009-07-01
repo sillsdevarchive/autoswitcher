@@ -10,18 +10,18 @@ int main (int argc, char *argv [])
 	vector<KeyboardProperties> *factoryList = new vector<KeyboardProperties>();
 	//PanelControlClient *panelControl = new PanelControlClient();
 
-	cout<<"Opening Connection"<<endl;
+	cout << "Opening Connection" << endl;
 
-	if(!open_connection()){
+	if(!OpenConnectionToScimPanel()){
 		cout << "Failed to open connection to Panel";
 		return 0;
 	}
 
-	cout<<"Asking for current Factory:"<<endl;
-	cout<<request_current_factory();
+	cout << "Asking for current Factory:" << endl;
+	cout << GetCurrentKeyboard();
 
-	cout<<"Requesting Factory Menu"<<endl;
-	cout << request_factory_menu(factoryList)<<endl;
+	cout << "Requesting Factory Menu" << endl;
+	cout << GetListOfSupportedKeyboards(factoryList) << endl;
 	KeyboardProperties keyboardProperties;
 	for(unsigned int i=0;i < factoryList->size(); ++i){
 		keyboardProperties = (*factoryList)[i];
@@ -32,10 +32,10 @@ int main (int argc, char *argv [])
 	char selected_keyboard[20];
 	scanf("%s", selected_keyboard);
 	int selected_keyboard_as_int = atoi(selected_keyboard);
-	cout << change_factory((*factoryList)[selected_keyboard_as_int].uuid);
+	cout << SetKeyboard((*factoryList)[selected_keyboard_as_int].uuid);
 
-	cout<<"Closing Connection"<<endl;
-	close_connection();
+	cout << "Closing Connection" << endl;
+	CloseConnectionToScimPanel();
 
 	delete factoryList;
 	//delete panelControl;

@@ -20,11 +20,11 @@ struct KeyboardProperties
 	SimpleString pathToIcon;
 };
 
-bool 	open_connection			();
-void 	close_connection		();
-int 	request_factory_menu	(std::vector <KeyboardProperties>* FactoryList);
-int 	change_factory			(SimpleString uuidToChangeTo);
-int		request_current_factory ();
+bool 	OpenConnectionToScimPanel	();
+void 	CloseConnectionToScimPanel	();
+int 	GetListOfSupportedKeyboards	(std::vector <KeyboardProperties>* FactoryList);
+int 	SetKeyboard					(SimpleString uuidToChangeTo);
+int		GetCurrentKeyboard			();
 
 
 #endif /*SCIM_PANELCONTROL_CLIENT_H_*/
