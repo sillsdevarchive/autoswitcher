@@ -1,10 +1,11 @@
 #ifndef SCIM_PANELCONTROL_CLIENT_H_
 #define SCIM_PANELCONTROL_CLIENT_H_
 
-#include <vector>
 #include <string>
 
 using namespace std;
+
+extern "C" {
 
 const int SCIM_AUTOSWITCHER_PANEL_SOCKET_ERROR							= 1;
 const int SCIM_AUTOSWITCHER_PANEL_MESSAGE_TIMEOUT						= 2;
@@ -22,9 +23,10 @@ struct KeyboardProperties
 
 bool 	OpenConnectionToScimPanel	();
 void 	CloseConnectionToScimPanel	();
-int 	GetListOfSupportedKeyboards	(std::vector <KeyboardProperties>* FactoryList);
+int 	GetListOfSupportedKeyboards	(KeyboardProperties* supportedKeyboards, int maxNumberOfKeyboards, int* numberOfReturnedKeyboards);
 int 	SetKeyboard					(SimpleString uuidToChangeTo);
 int		GetCurrentKeyboard			();
 
+}
 
 #endif /*SCIM_PANELCONTROL_CLIENT_H_*/

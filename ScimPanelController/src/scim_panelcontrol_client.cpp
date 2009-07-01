@@ -57,7 +57,7 @@ void CloseConnectionToScimPanel ()
 	m_socket_magic_key = 0;
 }
 
-int GetListOfSupportedKeyboards (vector <KeyboardProperties>* keyboardMenu)
+int GetListOfSupportedKeyboards (KeyboardProperties supportedKeyboards[], int maxNumberOfKeyboards, int* numberOfReturnedKeyboards)
 {
 	int return_status = 0;
 	SCIM_DEBUG_MAIN(1) << "PanelControlClient::request_factory_menu ()\n";
@@ -76,14 +76,14 @@ int GetListOfSupportedKeyboards (vector <KeyboardProperties>* keyboardMenu)
 		if (return_status == 0){
 			cout << "Happily read the transaction header!" << endl;
 
-			KeyboardProperties keyboard;
-			while (m_recv_trans.get_data (keyboard.uuid) && m_recv_trans.get_data (keyboard.name) &&
-				   m_recv_trans.get_data (keyboard.language) && m_recv_trans.get_data (keyboard.pathToIcon)) {
-				keyboard.language = scim_get_normalized_language (keyboard.language);
-
-				keyboardMenu->push_back (keyboard);
+			*numberOfReturnedKeyboards = 0;
+			while (m_recv_trans.get_data (supportedKeyboards[*numberOfReturnedKeyboards].uuid) && m_recv_trans.get_data (supportedKeyboards[*numberOfReturnedKeyboards].name) &&
+				   m_recv_trans.get_data (supportedKeyboards[*numberOfReturnedKeyboards].language) && m_recv_trans.get_data (supportedKeyboards[*numberOfReturnedKeyboards].pathToIcon) &&
+				   *numberOfReturnedKeyboards < maxNumberOfKeyboards) {
+				supportedKeyboards[*numberOfReturnedKeyboards].language = scim_get_normalized_language (supportedKeyboards[*numberOfReturnedKeyboards].language);
 				cout << "Happily read a factory!" << endl;
-				cout << keyboard.name << keyboard.uuid << endl;
+				cout << supportedKeyboards[*numberOfReturnedKeyboards].name << supportedKeyboards[*numberOfReturnedKeyboards].uuid << endl;
+				(*numberOfReturnedKeyboards)++;
 			}
 		}
 	}
