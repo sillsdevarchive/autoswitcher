@@ -8,20 +8,20 @@ int main (int argc, char *argv [])
 {
 	while(1){
 	vector<KeyboardProperties> *factoryList = new vector<KeyboardProperties>();
-	PanelControlClient *panelControl = new PanelControlClient();
+	//PanelControlClient *panelControl = new PanelControlClient();
 
 	cout<<"Opening Connection"<<endl;
 
-	if(!panelControl->open_connection()){
+	if(!open_connection()){
 		cout << "Failed to open connection to Panel";
 		return 0;
 	}
 
 	cout<<"Asking for current Factory:"<<endl;
-	cout<<panelControl->request_current_factory();
+	cout<<request_current_factory();
 
 	cout<<"Requesting Factory Menu"<<endl;
-	cout << panelControl->request_factory_menu(factoryList)<<endl;
+	cout << request_factory_menu(factoryList)<<endl;
 	KeyboardProperties keyboardProperties;
 	for(unsigned int i=0;i < factoryList->size(); ++i){
 		keyboardProperties = (*factoryList)[i];
@@ -32,15 +32,15 @@ int main (int argc, char *argv [])
 	char selected_keyboard[20];
 	scanf("%s", selected_keyboard);
 	int selected_keyboard_as_int = atoi(selected_keyboard);
-	cout << panelControl->change_factory((*factoryList)[selected_keyboard_as_int].uuid);
+	cout << change_factory((*factoryList)[selected_keyboard_as_int].uuid);
 
 	cout<<"Closing Connection"<<endl;
-	panelControl->close_connection();
+	close_connection();
 
 	delete factoryList;
-	delete panelControl;
+	//delete panelControl;
 	factoryList = 0;
-	panelControl = 0;
+	//panelControl = 0;
 
 	char quit[80];
 	cout << "Quit?\n 1.Yes\n Anything else: No\n" ;

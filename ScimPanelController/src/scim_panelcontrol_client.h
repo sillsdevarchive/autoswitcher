@@ -20,22 +20,11 @@ struct KeyboardProperties
 	SimpleString pathToIcon;
 };
 
-class PanelControlClient
-{
-	class PanelControlClientImpl;
-	PanelControlClientImpl *m_impl;
+bool 	open_connection			();
+void 	close_connection		();
+int 	request_factory_menu	(std::vector <KeyboardProperties>* FactoryList);
+int 	change_factory			(SimpleString uuidToChangeTo);
+int		request_current_factory ();
 
-	PanelControlClient (const PanelControlClient &);
-	const PanelControlClient & operator = (const PanelControlClient &);
-
-	public:
-			PanelControlClient		();
-			~PanelControlClient		();
-	int 	open_connection			();
-	void 	close_connection		();
-	int 	request_factory_menu	(std::vector <KeyboardProperties>* FactoryList);
-	int 	change_factory			(SimpleString uuidToChangeTo);
-	int		request_current_factory ();
-};
 
 #endif /*SCIM_PANELCONTROL_CLIENT_H_*/
