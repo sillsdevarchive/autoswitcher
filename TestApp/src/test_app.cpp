@@ -21,8 +21,7 @@ int main (int argc, char *argv [])
 
 	cout << "Requesting Factory Menu" << endl;
 	int numAvailableKeyboards = 0;
-
-	cout << GetListOfSupportedKeyboards(listOfAvailableKeyboards, 20, &numAvailableKeyboards) << endl;
+	GetListOfSupportedKeyboards(listOfAvailableKeyboards, 20, &numAvailableKeyboards) << endl;
 	cout << "Number of supported keyboards:" << numAvailableKeyboards << endl;
 	KeyboardProperties keyboardProperties;
 	for(int i=0;i < numAvailableKeyboards; ++i){

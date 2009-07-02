@@ -1,30 +1,27 @@
 #ifndef SCIM_PANELCONTROL_CLIENT_H_
 #define SCIM_PANELCONTROL_CLIENT_H_
 
-#include <string>
-
-using namespace std;
-
 extern "C" {
 
 const int SCIM_AUTOSWITCHER_PANEL_SOCKET_ERROR							= 1;
 const int SCIM_AUTOSWITCHER_PANEL_MESSAGE_TIMEOUT						= 2;
 const int SCIM_AUTOSWITCHER_PANEL_RECEIVED_FAULTY_TRANSACTION_HEADER	= 3;
-
-typedef basic_string<char> SimpleString;
+const int SCIM_AUTOSWITCHER_PANEL_INVALID_KEYBOARD_ID					= 4;
+const int MAXSTRINGLENGTH = 50;
+const int MAXNUMBEROFSUPPORTEDKEYBOARDS = 10;
 
 struct KeyboardProperties
 {
-	SimpleString uuid;
-	SimpleString name;
-	SimpleString language;
-	SimpleString pathToIcon;
+	char uuid[MAXSTRINGLENGTH];
+	char name[MAXSTRINGLENGTH];
+	char language[MAXSTRINGLENGTH];
+	char pathToIcon[MAXSTRINGLENGTH];
 };
 
 bool 	OpenConnectionToScimPanel	();
 void 	CloseConnectionToScimPanel	();
-int 	GetListOfSupportedKeyboards	(KeyboardProperties* supportedKeyboards, int maxNumberOfKeyboards, int* numberOfReturnedKeyboards);
-int 	SetKeyboard					(SimpleString uuidToChangeTo);
+int 	GetListOfSupportedKeyboards	(KeyboardProperties supportedKeyboards[], int maxNumberOfKeyboards, int* numberOfReturnedKeyboards);
+int 	SetKeyboard					(char KeyboardIdToChangeTo[]);
 int		GetCurrentKeyboard			();
 
 }

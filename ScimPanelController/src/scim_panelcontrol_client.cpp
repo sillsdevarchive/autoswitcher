@@ -2,6 +2,7 @@
 #define Uses_SCIM_TRANSACTION
 #define Uses_SCIM_TRANS_COMMANDS
 
+#include <cstring>
 #include <X11/Xlib.h>
 #include <scim.h>
 #include <scim_panel_common.h>
@@ -11,6 +12,8 @@ using namespace std;
 using namespace scim;
 
 //forward declaration of private functions
+bool	UuidIsValid								(String KeyboardIdToChangeTo);
+int		populateListOfValidUuids				();
 bool 	writeTransactionHeader 					();
 bool 	sendTransaction 						();
 int 	wait_for_response_from_agent			();
@@ -23,9 +26,9 @@ int				m_socket_timeout = scim_get_default_socket_timeout ();
 uint32			m_socket_magic_key = 0;
 Transaction     m_send_trans;
 Transaction     m_recv_trans;
-
 SocketClient	m_socket;
 int 			m_send_refcount = 0;
+vector<String>  validUuids;
 
 // public function
 bool  OpenConnectionToScimPanel ()
@@ -42,6 +45,7 @@ bool  OpenConnectionToScimPanel ()
 	if (m_socket.connect (addr)){
 		if (scim_socket_open_connection (m_socket_magic_key, String ("PanelController"), String ("Panel"), m_socket, m_socket_timeout)){
 			connection_opened = true;
+			populateListOfValidUuids();
 		}
 		else{
 			if (m_socket.is_connected ()) CloseConnectionToScimPanel ();
@@ -76,28 +80,43 @@ int GetListOfSupportedKeyboards (KeyboardProperties supportedKeyboards[], int ma
 		if (return_status == 0){
 			cout << "Happily read the transaction header!" << endl;
 
+			PanelFactoryInfo factoryInfo;
 			*numberOfReturnedKeyboards = 0;
-			while (m_recv_trans.get_data (supportedKeyboards[*numberOfReturnedKeyboards].uuid) && m_recv_trans.get_data (supportedKeyboards[*numberOfReturnedKeyboards].name) &&
-				   m_recv_trans.get_data (supportedKeyboards[*numberOfReturnedKeyboards].language) && m_recv_trans.get_data (supportedKeyboards[*numberOfReturnedKeyboards].pathToIcon) &&
+
+			while (m_recv_trans.get_data (factoryInfo.uuid) && m_recv_trans.get_data (factoryInfo.name) &&
+				   m_recv_trans.get_data (factoryInfo.lang) && m_recv_trans.get_data (factoryInfo.icon) &&
 				   *numberOfReturnedKeyboards < maxNumberOfKeyboards) {
-				supportedKeyboards[*numberOfReturnedKeyboards].language = scim_get_normalized_language (supportedKeyboards[*numberOfReturnedKeyboards].language);
+				factoryInfo.lang = scim_get_normalized_language (factoryInfo.lang);
+
+				std::cout << "copying strings";
+				strcpy(supportedKeyboards[*numberOfReturnedKeyboards].uuid, factoryInfo.uuid.c_str());
+				strcpy(supportedKeyboards[*numberOfReturnedKeyboards].name, factoryInfo.name.c_str());
+				strcpy(supportedKeyboards[*numberOfReturnedKeyboards].language, factoryInfo.lang.c_str());
+				strcpy(supportedKeyboards[*numberOfReturnedKeyboards].pathToIcon, factoryInfo.icon.c_str());
+
 				cout << "Happily read a factory!" << endl;
-				cout << supportedKeyboards[*numberOfReturnedKeyboards].name << supportedKeyboards[*numberOfReturnedKeyboards].uuid << endl;
+				cout << supportedKeyboards[*numberOfReturnedKeyboards].name <<  supportedKeyboards[*numberOfReturnedKeyboards].uuid << endl;
 				(*numberOfReturnedKeyboards)++;
 			}
 		}
 	}
 
+	cout << "exiting GetListOfSupportedKeyboards!" << endl;
 	return return_status;
 }
 
-int SetKeyboard (SimpleString uuid_to_change_to)
+int SetKeyboard (char KeyboardIdToChangeTo[])
 {
 	int return_status = 0;
-	cout << "PanelControlClient::change_factory () to " << uuid_to_change_to << "\n";
+
+	if(!UuidIsValid(KeyboardIdToChangeTo)){
+		return SCIM_AUTOSWITCHER_PANEL_INVALID_KEYBOARD_ID;
+	}
+
+	cout << "PanelControlClient::change_factory () to " << KeyboardIdToChangeTo << "\n";
 	writeTransactionHeader();
 	m_send_trans.put_command (SCIM_TRANS_CMD_CONTROLLER_CHANGE_FACTORY);
-	m_send_trans.put_data (uuid_to_change_to);
+	m_send_trans.put_data (KeyboardIdToChangeTo);
 	sendTransaction();
 
 	return_status = wait_for_response_from_agent();
@@ -151,6 +170,36 @@ int GetCurrentKeyboard ()
 }
 
 //private functions
+bool UuidIsValid(String KeyboardIdToChangeTo){
+	bool UuidIsValid = false;
+
+	vector<String>::iterator it;
+	for(it = validUuids.begin(); it<validUuids.end(); it++){
+		cout << *it << " " << KeyboardIdToChangeTo << endl;
+		if(it->compare(KeyboardIdToChangeTo) != 0){
+			UuidIsValid = true;
+		}
+	}
+	if (UuidIsValid == false){
+		throw Exception("Uuid is not valid!");
+	}
+	return UuidIsValid;
+}
+
+int populateListOfValidUuids(){
+	int return_status = 0;
+	KeyboardProperties supportedKeyboards[MAXNUMBEROFSUPPORTEDKEYBOARDS];
+	int numSupportedKeyboards = 0;
+
+	return_status = GetListOfSupportedKeyboards(supportedKeyboards, MAXNUMBEROFSUPPORTEDKEYBOARDS, &numSupportedKeyboards);
+
+	for(int i=0; i<numSupportedKeyboards; ++i){
+		validUuids.push_back(String(supportedKeyboards[i].uuid));
+	}
+	return return_status;
+}
+
+
 int wait_for_response_from_agent (){
 	int return_status = 0;
 
