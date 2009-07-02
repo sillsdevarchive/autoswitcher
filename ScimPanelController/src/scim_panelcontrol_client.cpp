@@ -12,7 +12,7 @@ using namespace std;
 using namespace scim;
 
 //forward declaration of private functions
-bool	UuidIsValid									(String KeyboardIdToChangeTo);
+bool	uuidIsValid									(String KeyboardIdToChangeTo);
 int		populateListOfValidUuids					();
 bool 	writeTransactionHeader 						();
 bool 	sendTransaction 							();
@@ -21,7 +21,7 @@ int 	verify_transaction_header					(int expected_cmd);
 int 	wait_for_response_from_agent				();
 int  	get_connection_number  						();
 
-void 	copyPanelFactoryInfoToKeyboaredProperties	(PanelFactoryInfo factoryInfo, KeyboardProperties *keyboardproperty);
+void 	copyPanelFactoryInfoToKeyboardProperties	(PanelFactoryInfo factoryInfo, KeyboardProperties *keyboardproperty);
 
 //global variables
 int				m_socket_timeout = scim_get_default_socket_timeout ();
@@ -64,22 +64,15 @@ void CloseConnectionToScimPanel ()
 int GetListOfSupportedKeyboards (KeyboardProperties supportedKeyboards[], int maxNumberOfKeyboards, int* numberOfReturnedKeyboards)
 {
 	int return_status = 0;
-	SCIM_DEBUG_MAIN(1) << "PanelControlClient::request_factory_menu ()\n";
 	writeTransactionHeader();
 	m_send_trans.put_command (SCIM_TRANS_CMD_CONTROLLER_REQUEST_FACTORY_MENU);
 	sendTransaction();
 
-	cout << "Transaction sent!" << endl;
-
 	return_status = wait_for_response_from_agent();
 
 	if (return_status == 0){
-		cout << "Got a response from the panel!" << endl;
-
 		return_status = verify_transaction_header(SCIM_TRANS_CMD_PANEL_SHOW_FACTORY_MENU);
 		if (return_status == 0){
-			cout << "Happily read the transaction header!" << endl;
-
 			PanelFactoryInfo factoryInfo;
 			*numberOfReturnedKeyboards = 0;
 
@@ -88,16 +81,12 @@ int GetListOfSupportedKeyboards (KeyboardProperties supportedKeyboards[], int ma
 				   *numberOfReturnedKeyboards < maxNumberOfKeyboards) {
 				factoryInfo.lang = scim_get_normalized_language (factoryInfo.lang);
 
-				copyPanelFactoryInfoToKeyboaredProperties(factoryInfo, &supportedKeyboards[*numberOfReturnedKeyboards]);
+				copyPanelFactoryInfoToKeyboardProperties(factoryInfo, &supportedKeyboards[*numberOfReturnedKeyboards]);
 
-				cout << "Happily read a factory!" << endl;
-				cout << supportedKeyboards[*numberOfReturnedKeyboards].name <<  supportedKeyboards[*numberOfReturnedKeyboards].uuid << endl;
 				(*numberOfReturnedKeyboards)++;
 			}
 		}
 	}
-
-	cout << "exiting GetListOfSupportedKeyboards!" << endl;
 	return return_status;
 }
 
@@ -105,8 +94,14 @@ int SetKeyboard (char KeyboardIdToChangeTo[])
 {
 	int return_status = 0;
 
-	if(!UuidIsValid(KeyboardIdToChangeTo)){
+	if (!uuidIsValid(KeyboardIdToChangeTo)){
 		return SCIM_AUTOSWITCHER_PANEL_INVALID_KEYBOARD_ID;
+	}
+
+	KeyboardProperties currentKeyboard;
+	GetCurrentKeyboard(&currentKeyboard);
+	if (strcmp(KeyboardIdToChangeTo, currentKeyboard.uuid) == 0){
+		return 0;
 	}
 
 	cout << "PanelControlClient::change_factory () to " << KeyboardIdToChangeTo << "\n";
@@ -118,11 +113,9 @@ int SetKeyboard (char KeyboardIdToChangeTo[])
 	return_status = wait_for_response_from_agent();
 
 	if (return_status == 0){
-		cout << "Got a response from the panel!" << endl;
 
 		return_status = verify_transaction_header(SCIM_TRANS_CMD_PANEL_UPDATE_FACTORY_INFO);
 		if (return_status == 0){
-			cout << "Happily read the transaction header!" << endl;
 
 			PanelFactoryInfo info;
 			if (m_recv_trans.get_data (info.uuid) && m_recv_trans.get_data (info.name) &&
@@ -136,10 +129,9 @@ int SetKeyboard (char KeyboardIdToChangeTo[])
 	return return_status;
 }
 
-int GetCurrentKeyboard ()
+int GetCurrentKeyboard (KeyboardProperties *currentKeyboard)
 {
 	int return_status = 0;
-	cout << "PanelControlClient::request_current_factory ()\n";
 	writeTransactionHeader();
 	m_send_trans.put_command (SCIM_TRANS_CMD_CONTROLLER_GET_CURRENT_FACTORY);
 	sendTransaction();
@@ -147,16 +139,14 @@ int GetCurrentKeyboard ()
 	return_status = wait_for_response_from_agent();
 
 	if (return_status == 0){
-		cout << "Got a response from the panel!" << endl;
-
 		return_status = verify_transaction_header(SCIM_TRANS_CMD_PANEL_RETURN_CURRENT_FACTORY_INFO);
 		if (return_status == 0){
-			cout << "Happily read the transaction header!" << endl;
 
 			PanelFactoryInfo info;
 			if (m_recv_trans.get_data (info.uuid) && m_recv_trans.get_data (info.name) &&
 				m_recv_trans.get_data (info.lang) && m_recv_trans.get_data (info.icon)) {
 				info.lang = scim_get_normalized_language (info.lang);
+				copyPanelFactoryInfoToKeyboardProperties( info, currentKeyboard);
 				cout << "Current Factory is:  uuid=" << info.uuid << " name=" << info.name << "\n";
 			}
 		}
@@ -166,15 +156,15 @@ int GetCurrentKeyboard ()
 }
 
 //private functions
-void copyPanelFactoryInfoToKeyboaredProperties(PanelFactoryInfo factoryInfo, KeyboardProperties *keyboardproperty){
+void copyPanelFactoryInfoToKeyboardProperties(PanelFactoryInfo factoryInfo, KeyboardProperties *keyboardproperty){
 	strcpy(keyboardproperty->uuid, factoryInfo.uuid.c_str());
 	strcpy(keyboardproperty->name, factoryInfo.name.c_str());
 	strcpy(keyboardproperty->language, factoryInfo.lang.c_str());
 	strcpy(keyboardproperty->pathToIcon, factoryInfo.icon.c_str());
 }
 
-bool UuidIsValid(String keyboardIdToChangeTo){
-	bool UuidIsValid = false;
+bool uuidIsValid(String keyboardIdToChangeTo){
+	bool return_status = false;
 	KeyboardProperties supportedKeyboards[MAXNUMBEROFSUPPORTEDKEYBOARDS];
 	int numSupportedKeyboards = 0;
 
@@ -183,11 +173,10 @@ bool UuidIsValid(String keyboardIdToChangeTo){
 	for(int i = 0; i<numSupportedKeyboards; ++i){
 		cout << supportedKeyboards[i].uuid << " " << keyboardIdToChangeTo << endl;
 		if(keyboardIdToChangeTo.compare(supportedKeyboards[i].uuid) == 0){
-			UuidIsValid = true;
+			return_status = true;
 		}
 	}
-	cout << UuidIsValid;
-	return UuidIsValid;
+	return return_status;
 }
 
 int wait_for_response_from_agent (){

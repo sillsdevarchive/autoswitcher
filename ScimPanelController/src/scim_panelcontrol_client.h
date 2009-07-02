@@ -22,7 +22,7 @@ bool 	OpenConnectionToScimPanel	();
 void 	CloseConnectionToScimPanel	();
 int 	GetListOfSupportedKeyboards	(KeyboardProperties supportedKeyboards[], int maxNumberOfKeyboards, int* numberOfReturnedKeyboards);
 int 	SetKeyboard					(char KeyboardIdToChangeTo[]);
-int		GetCurrentKeyboard			();
+int		GetCurrentKeyboard			(KeyboardProperties *currentKeyboard);
 
 }
 

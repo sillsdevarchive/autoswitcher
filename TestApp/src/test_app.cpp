@@ -16,12 +16,15 @@ int main (int argc, char *argv [])
 		return 0;
 	}
 
-	cout << "Asking for current Factory:" << endl;
-	cout << GetCurrentKeyboard();
+	KeyboardProperties currentKeyboard;
+	if(GetCurrentKeyboard(&currentKeyboard) != 0){
+		cout << "Failed to get the current keyboard.";
+		return 0;
+	}
 
 	cout << "Requesting Factory Menu" << endl;
 	int numAvailableKeyboards = 0;
-	cout << GetListOfSupportedKeyboards(listOfAvailableKeyboards, 20, &numAvailableKeyboards) << endl;
+	GetListOfSupportedKeyboards(listOfAvailableKeyboards, 20, &numAvailableKeyboards);
 	cout << "Number of supported keyboards:" << numAvailableKeyboards << endl;
 	KeyboardProperties keyboardProperties;
 	for(int i=0;i < numAvailableKeyboards; ++i){
@@ -29,7 +32,7 @@ int main (int argc, char *argv [])
 		cout << i << " " << keyboardProperties.name << endl;
 	}
 	cout << "Anything else:" << " " << listOfAvailableKeyboards[0].name << endl;
-	cout << "Please select the factory you would like";
+	cout << "Please select the factory you would like ";
 	char selected_keyboard[20];
 	scanf("%s", selected_keyboard);
 	int selected_keyboard_as_int = atoi(selected_keyboard);
