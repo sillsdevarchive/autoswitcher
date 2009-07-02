@@ -21,6 +21,7 @@ int main (int argc, char *argv [])
 		cout << "Failed to get the current keyboard.";
 		return 0;
 	}
+	cout << "Current keyboard is:" << currentKeyboard.name << endl;
 
 	cout << "Requesting Factory Menu" << endl;
 	int numAvailableKeyboards = 0;
@@ -36,10 +37,17 @@ int main (int argc, char *argv [])
 	char selected_keyboard[20];
 	scanf("%s", selected_keyboard);
 	int selected_keyboard_as_int = atoi(selected_keyboard);
+	if(numAvailableKeyboards< selected_keyboard_as_int) selected_keyboard_as_int = 0;
 	if(SetKeyboard(listOfAvailableKeyboards[selected_keyboard_as_int].uuid) != 0){
 		cout << "Error trying to set keyboard!" << endl;
 		return 0;
 	}
+
+	if(GetCurrentKeyboard(&currentKeyboard) != 0){
+		cout << "Failed to get the current keyboard.";
+		return 0;
+	}
+	cout << "Switched keyboard to: " << currentKeyboard.name << endl;
 
 	cout << "Closing Connection" << endl;
 	CloseConnectionToScimPanel();

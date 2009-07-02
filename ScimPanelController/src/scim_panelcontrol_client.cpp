@@ -104,7 +104,6 @@ int SetKeyboard (char KeyboardIdToChangeTo[])
 		return 0;
 	}
 
-	cout << "PanelControlClient::change_factory () to " << KeyboardIdToChangeTo << "\n";
 	writeTransactionHeader();
 	m_send_trans.put_command (SCIM_TRANS_CMD_CONTROLLER_CHANGE_FACTORY);
 	m_send_trans.put_data (KeyboardIdToChangeTo);
@@ -120,7 +119,6 @@ int SetKeyboard (char KeyboardIdToChangeTo[])
 			PanelFactoryInfo info;
 			if (m_recv_trans.get_data (info.uuid) && m_recv_trans.get_data (info.name) &&
 				m_recv_trans.get_data (info.lang) && m_recv_trans.get_data (info.icon)) {
-				cout << "Switched to new Factory:  uuid=" << info.uuid << " name=" << info.name << "\n";
 				info.lang = scim_get_normalized_language (info.lang);
 			}
 		}
@@ -147,7 +145,6 @@ int GetCurrentKeyboard (KeyboardProperties *currentKeyboard)
 				m_recv_trans.get_data (info.lang) && m_recv_trans.get_data (info.icon)) {
 				info.lang = scim_get_normalized_language (info.lang);
 				copyPanelFactoryInfoToKeyboardProperties( info, currentKeyboard);
-				cout << "Current Factory is:  uuid=" << info.uuid << " name=" << info.name << "\n";
 			}
 		}
 	}
@@ -171,7 +168,6 @@ bool uuidIsValid(String keyboardIdToChangeTo){
 	GetListOfSupportedKeyboards(supportedKeyboards, MAXNUMBEROFSUPPORTEDKEYBOARDS, &numSupportedKeyboards);
 
 	for(int i = 0; i<numSupportedKeyboards; ++i){
-		cout << supportedKeyboards[i].uuid << " " << keyboardIdToChangeTo << endl;
 		if(keyboardIdToChangeTo.compare(supportedKeyboards[i].uuid) == 0){
 			return_status = true;
 		}
