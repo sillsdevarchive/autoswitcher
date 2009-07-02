@@ -21,7 +21,7 @@ int main (int argc, char *argv [])
 
 	cout << "Requesting Factory Menu" << endl;
 	int numAvailableKeyboards = 0;
-	GetListOfSupportedKeyboards(listOfAvailableKeyboards, 20, &numAvailableKeyboards) << endl;
+	cout << GetListOfSupportedKeyboards(listOfAvailableKeyboards, 20, &numAvailableKeyboards) << endl;
 	cout << "Number of supported keyboards:" << numAvailableKeyboards << endl;
 	KeyboardProperties keyboardProperties;
 	for(int i=0;i < numAvailableKeyboards; ++i){
@@ -33,7 +33,10 @@ int main (int argc, char *argv [])
 	char selected_keyboard[20];
 	scanf("%s", selected_keyboard);
 	int selected_keyboard_as_int = atoi(selected_keyboard);
-	cout << SetKeyboard(listOfAvailableKeyboards[selected_keyboard_as_int].uuid);
+	if(SetKeyboard(listOfAvailableKeyboards[selected_keyboard_as_int].uuid) != 0){
+		cout << "Error trying to set keyboard!" << endl;
+		return 0;
+	}
 
 	cout << "Closing Connection" << endl;
 	CloseConnectionToScimPanel();

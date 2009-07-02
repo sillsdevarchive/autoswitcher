@@ -12,14 +12,16 @@ using namespace std;
 using namespace scim;
 
 //forward declaration of private functions
-bool	UuidIsValid								(String KeyboardIdToChangeTo);
-int		populateListOfValidUuids				();
-bool 	writeTransactionHeader 					();
-bool 	sendTransaction 						();
-int 	wait_for_response_from_agent			();
-int 	verify_transaction_header				(int expected_cmd);
-int 	wait_for_response_from_agent			();
-int  	get_connection_number  					();
+bool	UuidIsValid									(String KeyboardIdToChangeTo);
+int		populateListOfValidUuids					();
+bool 	writeTransactionHeader 						();
+bool 	sendTransaction 							();
+int 	wait_for_response_from_agent				();
+int 	verify_transaction_header					(int expected_cmd);
+int 	wait_for_response_from_agent				();
+int  	get_connection_number  						();
+
+void 	copyPanelFactoryInfoToKeyboaredProperties	(PanelFactoryInfo factoryInfo, KeyboardProperties *keyboardproperty);
 
 //global variables
 int				m_socket_timeout = scim_get_default_socket_timeout ();
@@ -28,7 +30,6 @@ Transaction     m_send_trans;
 Transaction     m_recv_trans;
 SocketClient	m_socket;
 int 			m_send_refcount = 0;
-vector<String>  validUuids;
 
 // public function
 bool  OpenConnectionToScimPanel ()
@@ -45,7 +46,6 @@ bool  OpenConnectionToScimPanel ()
 	if (m_socket.connect (addr)){
 		if (scim_socket_open_connection (m_socket_magic_key, String ("PanelController"), String ("Panel"), m_socket, m_socket_timeout)){
 			connection_opened = true;
-			populateListOfValidUuids();
 		}
 		else{
 			if (m_socket.is_connected ()) CloseConnectionToScimPanel ();
@@ -88,11 +88,7 @@ int GetListOfSupportedKeyboards (KeyboardProperties supportedKeyboards[], int ma
 				   *numberOfReturnedKeyboards < maxNumberOfKeyboards) {
 				factoryInfo.lang = scim_get_normalized_language (factoryInfo.lang);
 
-				std::cout << "copying strings";
-				strcpy(supportedKeyboards[*numberOfReturnedKeyboards].uuid, factoryInfo.uuid.c_str());
-				strcpy(supportedKeyboards[*numberOfReturnedKeyboards].name, factoryInfo.name.c_str());
-				strcpy(supportedKeyboards[*numberOfReturnedKeyboards].language, factoryInfo.lang.c_str());
-				strcpy(supportedKeyboards[*numberOfReturnedKeyboards].pathToIcon, factoryInfo.icon.c_str());
+				copyPanelFactoryInfoToKeyboaredProperties(factoryInfo, &supportedKeyboards[*numberOfReturnedKeyboards]);
 
 				cout << "Happily read a factory!" << endl;
 				cout << supportedKeyboards[*numberOfReturnedKeyboards].name <<  supportedKeyboards[*numberOfReturnedKeyboards].uuid << endl;
@@ -170,35 +166,29 @@ int GetCurrentKeyboard ()
 }
 
 //private functions
-bool UuidIsValid(String KeyboardIdToChangeTo){
-	bool UuidIsValid = false;
-
-	vector<String>::iterator it;
-	for(it = validUuids.begin(); it<validUuids.end(); it++){
-		cout << *it << " " << KeyboardIdToChangeTo << endl;
-		if(it->compare(KeyboardIdToChangeTo) != 0){
-			UuidIsValid = true;
-		}
-	}
-	if (UuidIsValid == false){
-		throw Exception("Uuid is not valid!");
-	}
-	return UuidIsValid;
+void copyPanelFactoryInfoToKeyboaredProperties(PanelFactoryInfo factoryInfo, KeyboardProperties *keyboardproperty){
+	strcpy(keyboardproperty->uuid, factoryInfo.uuid.c_str());
+	strcpy(keyboardproperty->name, factoryInfo.name.c_str());
+	strcpy(keyboardproperty->language, factoryInfo.lang.c_str());
+	strcpy(keyboardproperty->pathToIcon, factoryInfo.icon.c_str());
 }
 
-int populateListOfValidUuids(){
-	int return_status = 0;
+bool UuidIsValid(String keyboardIdToChangeTo){
+	bool UuidIsValid = false;
 	KeyboardProperties supportedKeyboards[MAXNUMBEROFSUPPORTEDKEYBOARDS];
 	int numSupportedKeyboards = 0;
 
-	return_status = GetListOfSupportedKeyboards(supportedKeyboards, MAXNUMBEROFSUPPORTEDKEYBOARDS, &numSupportedKeyboards);
+	GetListOfSupportedKeyboards(supportedKeyboards, MAXNUMBEROFSUPPORTEDKEYBOARDS, &numSupportedKeyboards);
 
-	for(int i=0; i<numSupportedKeyboards; ++i){
-		validUuids.push_back(String(supportedKeyboards[i].uuid));
+	for(int i = 0; i<numSupportedKeyboards; ++i){
+		cout << supportedKeyboards[i].uuid << " " << keyboardIdToChangeTo << endl;
+		if(keyboardIdToChangeTo.compare(supportedKeyboards[i].uuid) == 0){
+			UuidIsValid = true;
+		}
 	}
-	return return_status;
+	cout << UuidIsValid;
+	return UuidIsValid;
 }
-
 
 int wait_for_response_from_agent (){
 	int return_status = 0;
