@@ -39,7 +39,7 @@ bool  OpenConnectionToScimPanel ()
 	Display *m_display = XOpenDisplay (NULL);
 
 	if (!m_display)
-		throw Exception (String ("X11 -- Cannot open Display!"));
+		return connection_opened;
 
 	SocketAddress addr (scim_get_default_panel_socket_address (String DisplayString(m_display)));
 
