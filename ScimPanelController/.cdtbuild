@@ -3,7 +3,7 @@
 
 <ManagedProjectBuildInfo>
 <project id="ScimPanelController.cdt.managedbuild.target.gnu.so.886309064" name="Shared Library (Gnu)" projectType="cdt.managedbuild.target.gnu.so">
-<configuration artifactExtension="so" artifactName="ScimPanelController" cleanCommand="rm -rf" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="cdt.managedbuild.config.gnu.so.debug.1656002855" name="Debug" parent="cdt.managedbuild.config.gnu.so.debug">
+<configuration artifactExtension="so" artifactName="scimpanelcontroller" cleanCommand="rm -rf" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="cdt.managedbuild.config.gnu.so.debug.1656002855" name="Debug" parent="cdt.managedbuild.config.gnu.so.debug">
 <toolChain id="cdt.managedbuild.toolchain.gnu.so.debug.1418735136" name="GCC Tool Chain" superClass="cdt.managedbuild.toolchain.gnu.so.debug">
 <tool id="cdt.managedbuild.tool.gnu.cpp.compiler.so.debug.123206122" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.so.debug">
 <option id="gnu.cpp.compiler.option.include.paths.1310607181" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
