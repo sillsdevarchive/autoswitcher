@@ -31,7 +31,7 @@ Transaction     m_recv_trans;
 SocketClient	m_socket;
 int 			m_send_refcount = 0;
 
-// public function
+//public functions
 bool  OpenConnectionToScimPanel ()
 {
 	bool connection_opened = false;
