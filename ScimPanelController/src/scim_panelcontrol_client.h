@@ -24,7 +24,7 @@ void 	CloseConnectionToScimPanel	();
 int 	GetListOfSupportedKeyboards	(KeyboardProperties supportedKeyboards[], int maxNumberOfKeyboards, int* numberOfReturnedKeyboards);
 int 	SetKeyboard					(char KeyboardIdToChangeTo[]);
 int		GetCurrentKeyboard			(KeyboardProperties *currentKeyboard);
-
+bool  	ConnectionToScimPanelIsOpen ();
 }
 
 #endif /*SCIM_PANELCONTROL_CLIENT_H_*/

@@ -9,12 +9,18 @@ int main (int argc, char *argv [])
 	while(1){
 	KeyboardProperties listOfAvailableKeyboards[20];
 
+	cout << "Checking if connection is open..." << endl;
+	cout << ConnectionToScimPanelIsOpen() << endl;
 	cout << "Opening Connection" << endl;
 
 	if(!OpenConnectionToScimPanel()){
 		cout << "Failed to open connection to Panel";
 		return 0;
 	}
+
+
+	cout << "Checking if connection is open..." << endl;
+	cout << ConnectionToScimPanelIsOpen() << endl;
 
 	KeyboardProperties currentKeyboard;
 	if(GetCurrentKeyboard(&currentKeyboard) != 0){

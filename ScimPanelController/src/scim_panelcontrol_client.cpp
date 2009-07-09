@@ -55,6 +55,11 @@ bool  OpenConnectionToScimPanel ()
 	return connection_opened;
 }
 
+bool  ConnectionToScimPanelIsOpen ()
+{
+	return m_socket.is_connected();
+}
+
 void CloseConnectionToScimPanel ()
 {
 	m_socket.close ();
@@ -90,7 +95,18 @@ int GetListOfSupportedKeyboards (KeyboardProperties supportedKeyboards[], int ma
 	return return_status;
 }
 
-int SetKeyboard (char KeyboardIdToChangeTo[])
+int MarshalTest (char KeyboardIdToChangeTo[MAXSTRINGLENGTH])
+{
+	cout << KeyboardIdToChangeTo << endl;
+	int me = 5;
+	cout << me << endl;
+	String* stingThing = new String("new");
+	KeyboardProperties currentKeyboard;
+	uuidIsValid(KeyboardIdToChangeTo);
+	return 0;
+}
+
+int SetKeyboard (char KeyboardIdToChangeTo[MAXSTRINGLENGTH])
 {
 	int return_status = 0;
 
