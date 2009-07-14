@@ -60,15 +60,24 @@ bool  ConnectionToScimPanelIsOpen ()
 	return m_socket.is_connected();
 }
 
-void CloseConnectionToScimPanel ()
+int CloseConnectionToScimPanel ()
 {
+	int return_status = 0;
+
+	if(!m_socket.is_connected()) return SCIM_AUTOSWITCHER_PANEL_NO_CONNECTION_TO_PANEL;
+
 	m_socket.close ();
 	m_socket_magic_key = 0;
+	return return_status;
+
 }
 
 int GetListOfSupportedKeyboards (KeyboardProperties supportedKeyboards[], int maxNumberOfKeyboards, int* numberOfReturnedKeyboards)
 {
 	int return_status = 0;
+
+	if(!m_socket.is_connected()) return SCIM_AUTOSWITCHER_PANEL_NO_CONNECTION_TO_PANEL;
+
 	writeTransactionHeader();
 	m_send_trans.put_command (SCIM_TRANS_CMD_CONTROLLER_REQUEST_FACTORY_MENU);
 	sendTransaction();
@@ -99,14 +108,10 @@ int SetKeyboard (char KeyboardIdToChangeTo[MAXSTRINGLENGTH])
 {
 	int return_status = 0;
 
+	if(!m_socket.is_connected()) return SCIM_AUTOSWITCHER_PANEL_NO_CONNECTION_TO_PANEL;
+
 	if (!uuidIsValid(KeyboardIdToChangeTo)){
 		return SCIM_AUTOSWITCHER_PANEL_INVALID_KEYBOARD_ID;
-	}
-
-	KeyboardProperties currentKeyboard;
-	GetCurrentKeyboard(&currentKeyboard);
-	if (strcmp(KeyboardIdToChangeTo, currentKeyboard.uuid) == 0){
-		return 0;
 	}
 
 	writeTransactionHeader();
@@ -135,6 +140,9 @@ int SetKeyboard (char KeyboardIdToChangeTo[MAXSTRINGLENGTH])
 int GetCurrentKeyboard (KeyboardProperties *currentKeyboard)
 {
 	int return_status = 0;
+
+	if(!m_socket.is_connected()) return SCIM_AUTOSWITCHER_PANEL_NO_CONNECTION_TO_PANEL;
+
 	writeTransactionHeader();
 	m_send_trans.put_command (SCIM_TRANS_CMD_CONTROLLER_GET_CURRENT_FACTORY);
 	sendTransaction();
@@ -191,7 +199,7 @@ int wait_for_response_from_agent (){
 	FD_SET(panel_fd, &active_fds);
 
 	timeout.tv_sec = 0;
-	timeout.tv_usec = 3000 * 1000; //1000 milliseconds timeout
+	timeout.tv_usec = 10 * 1000 * 1000; //10 * 1000 milliseconds timeout
 
 	int select_result = select (panel_fd + 1, &active_fds, NULL, NULL, &timeout);
 
