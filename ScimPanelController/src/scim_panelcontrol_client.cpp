@@ -43,6 +43,8 @@ bool  OpenConnectionToScimPanel ()
 
 	SocketAddress addr (scim_get_default_panel_socket_address (String DisplayString(m_display)));
 
+	XCloseDisplay (m_display);
+
 	if (m_socket.connect (addr)){
 		if (scim_socket_open_connection (m_socket_magic_key, String ("PanelController"), String ("Panel"), m_socket, m_socket_timeout)){
 			connection_opened = true;

@@ -56,7 +56,7 @@ int main (int argc, char *argv [])
 	cout << "Switched keyboard to: " << currentKeyboard.name << endl;
 
 	cout << "Closing Connection" << endl;
-	CloseConnectionToScimPanel();
+	cout << "Closing status: " << CloseConnectionToScimPanel() << endl;
 
 	char quit[80];
 	cout << "Quit?\n 1.Yes\n Anything else: No\n" ;
