@@ -133,7 +133,7 @@ int SetKeyboard (char KeyboardIdToChangeTo[MAXSTRINGLENGTH])
 
 	if (return_status != 0) return return_status;
 
-	if (currentContext.client == -1 && currentContext.context == 0)
+	if (currentContext.frontendClient == -1 && currentContext.context == 0)
 		return SCIM_AUTOSWITCHER_PANEL_NO_CURRENT_INPUT_CONTEXT;
 
 	if (!uuidIsValid(KeyboardIdToChangeTo)) return SCIM_AUTOSWITCHER_PANEL_INVALID_KEYBOARD_ID;
@@ -218,7 +218,7 @@ bool GetCurrentInputContext	(ContextInfo& currentContext){
 			uint32 int32_client;
 			uint32 int32_context;
 			if (m_recv_trans.get_data (int32_client) && m_recv_trans.get_data (int32_context)) {
-				currentContext.client = int32_client;
+				currentContext.frontendClient = int32_client;
 				currentContext.context = int32_context;
 			}
 			else return_status = SCIM_AUTOSWITCHER_PANEL_FAULTY_DATA_RECEIVED;

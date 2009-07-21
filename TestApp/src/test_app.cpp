@@ -24,7 +24,7 @@ int main (int argc, char *argv [])
 	ContextInfo currentContext;
 	GetCurrentInputContext(currentContext);
 
-	cout << "The current client is:        " <<  currentContext.client << endl;
+	cout << "The current client is:        " <<  currentContext.frontendClient << endl;
 	cout << "The current input context is: " <<  currentContext.context << endl;
 
 	KeyboardProperties currentKeyboard;

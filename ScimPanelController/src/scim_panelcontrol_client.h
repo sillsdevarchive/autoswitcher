@@ -24,7 +24,7 @@ struct KeyboardProperties
 
 struct ContextInfo
 {
-	int client;
+	int frontendClient;
 	int context;
 };
 
