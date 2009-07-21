@@ -128,12 +128,12 @@ int SetKeyboard (char KeyboardIdToChangeTo[MAXSTRINGLENGTH])
 
 	if (!m_socket.is_connected()) return SCIM_AUTOSWITCHER_PANEL_NO_CONNECTION_TO_PANEL;
 
-	ContextInfo* currentContext;
-	return_status = GetCurrentInputContext(currentContext);
+	ContextInfo currentContext;
+	return_status = GetCurrentInputContext(&currentContext);
 
 	if (return_status != 0) return return_status;
 
-	if (currentContext->frontendClient == -1 && currentContext->context == 0)
+	if (currentContext.frontendClient == -1 && currentContext.context == 0)
 		return SCIM_AUTOSWITCHER_PANEL_NO_CURRENT_INPUT_CONTEXT;
 
 	if (!uuidIsValid(KeyboardIdToChangeTo)) return SCIM_AUTOSWITCHER_PANEL_INVALID_KEYBOARD_ID;

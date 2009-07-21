@@ -21,11 +21,11 @@ int main (int argc, char *argv [])
 	cout << "Checking if connection is open..." << endl;
 	cout << ConnectionToScimPanelIsOpen() << endl;
 
-	ContextInfo *currentContext;
-	GetCurrentInputContext(currentContext);
+	ContextInfo currentContext;
+	GetCurrentInputContext(&currentContext);
 
-	cout << "The current client is:        " <<  currentContext->frontendClient << endl;
-	cout << "The current input context is: " <<  currentContext->context << endl;
+	cout << "The current client is:        " <<  currentContext.frontendClient << endl;
+	cout << "The current input context is: " <<  currentContext.context << endl;
 
 	KeyboardProperties currentKeyboard;
 	if(GetCurrentKeyboard(&currentKeyboard) != 0){
@@ -49,6 +49,7 @@ int main (int argc, char *argv [])
 	scanf("%s", selected_keyboard);
 	int selected_keyboard_as_int = atoi(selected_keyboard);
 	if(numAvailableKeyboards< selected_keyboard_as_int) selected_keyboard_as_int = 0;
+	cout << "yo" <<endl;
 	if(SetKeyboard(listOfAvailableKeyboards[selected_keyboard_as_int].uuid) != 0){
 		cout << "Error trying to set keyboard!" << endl;
 		return 0;
