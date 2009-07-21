@@ -1,7 +1,7 @@
 #define Uses_SCIM_SOCKET
 #define Uses_SCIM_TRANSACTION
 #define Uses_SCIM_TRANS_COMMANDS
-
+#define DEBUG
 #include <cstring>
 #include <X11/Xlib.h>
 #include <scim.h>
@@ -34,6 +34,9 @@ int 			m_send_refcount = 0;
 //public functions
 bool  OpenConnectionToScimPanel ()
 {
+#ifdef DEBUG
+	cout << "OpenConnectionToScimPanel" << endl;
+#endif
 	bool connection_opened = false;
 
 	Display *m_display = XOpenDisplay (NULL);
@@ -43,27 +46,33 @@ bool  OpenConnectionToScimPanel ()
 
 	SocketAddress addr (scim_get_default_panel_socket_address (String DisplayString(m_display)));
 
-	XCloseDisplay (m_display);
-
 	if (m_socket.connect (addr)){
 		if (scim_socket_open_connection (m_socket_magic_key, String ("PanelController"), String ("Panel"), m_socket, m_socket_timeout)){
 			connection_opened = true;
 		}
-		else{
-			if (m_socket.is_connected ()) CloseConnectionToScimPanel ();
+		else if (m_socket.is_connected ()){
+			CloseConnectionToScimPanel ();
 		}
 	}
+
+	XCloseDisplay (m_display);
 
 	return connection_opened;
 }
 
 bool  ConnectionToScimPanelIsOpen ()
 {
+#ifdef DEBUG
+	cout << "ConnectionToScimPanelIsOpen" << endl;
+#endif
 	return m_socket.is_connected();
 }
 
 int CloseConnectionToScimPanel ()
 {
+#ifdef DEBUG
+	cout << "CloseConnectionToScimPanel" << endl;
+#endif
 	int return_status = 0;
 
 	if(!m_socket.is_connected()) return SCIM_AUTOSWITCHER_PANEL_NO_CONNECTION_TO_PANEL;
@@ -76,6 +85,9 @@ int CloseConnectionToScimPanel ()
 
 int GetListOfSupportedKeyboards (KeyboardProperties supportedKeyboards[], int maxNumberOfKeyboards, int* numberOfReturnedKeyboards)
 {
+#ifdef DEBUG
+	cout << "GetListOfSupportedKeyboards" << endl;
+#endif
 	int return_status = 0;
 
 	if(!m_socket.is_connected()) return SCIM_AUTOSWITCHER_PANEL_NO_CONNECTION_TO_PANEL;
@@ -108,19 +120,30 @@ int GetListOfSupportedKeyboards (KeyboardProperties supportedKeyboards[], int ma
 
 int SetKeyboard (char KeyboardIdToChangeTo[MAXSTRINGLENGTH])
 {
+#ifdef DEBUG
+	cout << "SetKeyboard" << endl;
+#endif
+
 	int return_status = 0;
 
-	if(!m_socket.is_connected()) return SCIM_AUTOSWITCHER_PANEL_NO_CONNECTION_TO_PANEL;
+	if (!m_socket.is_connected()) return SCIM_AUTOSWITCHER_PANEL_NO_CONNECTION_TO_PANEL;
 
-	if (!uuidIsValid(KeyboardIdToChangeTo)){
-		return SCIM_AUTOSWITCHER_PANEL_INVALID_KEYBOARD_ID;
-	}
+	ContextInfo currentContext;
+	return_status = GetCurrentInputContext(currentContext);
 
+	if (return_status != 0) return return_status;
+
+	if (currentContext.client == -1 && currentContext.context == 0)
+		return SCIM_AUTOSWITCHER_PANEL_NO_CURRENT_INPUT_CONTEXT;
+
+	if (!uuidIsValid(KeyboardIdToChangeTo)) return SCIM_AUTOSWITCHER_PANEL_INVALID_KEYBOARD_ID;
+
+	cout << "uuid is valid" << endl;
 	writeTransactionHeader();
 	m_send_trans.put_command (SCIM_TRANS_CMD_CONTROLLER_CHANGE_FACTORY);
 	m_send_trans.put_data (KeyboardIdToChangeTo);
 	sendTransaction();
-
+	cout << "sent request to change keyboard" << endl;
 	return_status = wait_for_response_from_agent();
 
 	if (return_status == 0){
@@ -133,6 +156,7 @@ int SetKeyboard (char KeyboardIdToChangeTo[MAXSTRINGLENGTH])
 				m_recv_trans.get_data (info.lang) && m_recv_trans.get_data (info.icon)) {
 				info.lang = scim_get_normalized_language (info.lang);
 			}
+			else return_status = SCIM_AUTOSWITCHER_PANEL_FAULTY_DATA_RECEIVED;
 		}
 	}
 
@@ -141,6 +165,10 @@ int SetKeyboard (char KeyboardIdToChangeTo[MAXSTRINGLENGTH])
 
 int GetCurrentKeyboard (KeyboardProperties *currentKeyboard)
 {
+#ifdef DEBUG
+	cout << "GetCurrentKeyboard" << endl;
+#endif
+
 	int return_status = 0;
 
 	if(!m_socket.is_connected()) return SCIM_AUTOSWITCHER_PANEL_NO_CONNECTION_TO_PANEL;
@@ -161,6 +189,39 @@ int GetCurrentKeyboard (KeyboardProperties *currentKeyboard)
 				info.lang = scim_get_normalized_language (info.lang);
 				copyPanelFactoryInfoToKeyboardProperties( info, currentKeyboard);
 			}
+			else return_status = SCIM_AUTOSWITCHER_PANEL_FAULTY_DATA_RECEIVED;
+		}
+	}
+
+	return return_status;
+}
+
+bool GetCurrentInputContext	(ContextInfo& currentContext){
+
+#ifdef DEBUG
+	cout << "GetCurrentInputContext" << endl;
+#endif
+
+	int return_status = 0;
+
+	if(!m_socket.is_connected()) return SCIM_AUTOSWITCHER_PANEL_NO_CONNECTION_TO_PANEL;
+
+	writeTransactionHeader();
+	m_send_trans.put_command (SCIM_TRANS_CMD_CONTROLLER_GET_CURRENT_CONTEXT);
+	sendTransaction();
+
+	return_status = wait_for_response_from_agent();
+
+	if (return_status == 0){
+		return_status = verify_transaction_header(SCIM_TRANS_CMD_PANEL_RETURN_CURRENT_CONTEXT);
+		if (return_status == 0){
+			uint32 int32_client;
+			uint32 int32_context;
+			if (m_recv_trans.get_data (int32_client) && m_recv_trans.get_data (int32_context)) {
+				currentContext.client = int32_client;
+				currentContext.context = int32_context;
+			}
+			else return_status = SCIM_AUTOSWITCHER_PANEL_FAULTY_DATA_RECEIVED;
 		}
 	}
 
@@ -200,8 +261,8 @@ int wait_for_response_from_agent (){
 	FD_ZERO(&active_fds);
 	FD_SET(panel_fd, &active_fds);
 
-	timeout.tv_sec = 0;
-	timeout.tv_usec = 10 * 1000 * 1000; //10 * 1000 milliseconds timeout
+	timeout.tv_sec = 3;
+	timeout.tv_usec = 0; //3 * 1000 milliseconds timeout
 
 	int select_result = select (panel_fd + 1, &active_fds, NULL, NULL, &timeout);
 

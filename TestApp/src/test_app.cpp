@@ -18,9 +18,14 @@ int main (int argc, char *argv [])
 		return 0;
 	}
 
-
 	cout << "Checking if connection is open..." << endl;
 	cout << ConnectionToScimPanelIsOpen() << endl;
+
+	ContextInfo currentContext;
+	GetCurrentInputContext(currentContext);
+
+	cout << "The current client is:        " <<  currentContext.client << endl;
+	cout << "The current input context is: " <<  currentContext.context << endl;
 
 	KeyboardProperties currentKeyboard;
 	if(GetCurrentKeyboard(&currentKeyboard) != 0){
