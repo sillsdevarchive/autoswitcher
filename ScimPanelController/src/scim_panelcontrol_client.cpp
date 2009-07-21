@@ -1,7 +1,7 @@
 #define Uses_SCIM_SOCKET
 #define Uses_SCIM_TRANSACTION
 #define Uses_SCIM_TRANS_COMMANDS
-#define DEBUG
+//#define DEBUG
 #include <cstring>
 #include <X11/Xlib.h>
 #include <scim.h>
@@ -137,13 +137,10 @@ int SetKeyboard (char KeyboardIdToChangeTo[MAXSTRINGLENGTH])
 		return SCIM_AUTOSWITCHER_PANEL_NO_CURRENT_INPUT_CONTEXT;
 
 	if (!uuidIsValid(KeyboardIdToChangeTo)) return SCIM_AUTOSWITCHER_PANEL_INVALID_KEYBOARD_ID;
-
-	cout << "uuid is valid" << endl;
 	writeTransactionHeader();
 	m_send_trans.put_command (SCIM_TRANS_CMD_CONTROLLER_CHANGE_FACTORY);
 	m_send_trans.put_data (KeyboardIdToChangeTo);
 	sendTransaction();
-	cout << "sent request to change keyboard" << endl;
 	return_status = wait_for_response_from_agent();
 
 	if (return_status == 0){
