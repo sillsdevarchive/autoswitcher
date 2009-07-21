@@ -34,7 +34,7 @@ int 	GetListOfSupportedKeyboards	(KeyboardProperties supportedKeyboards[], int m
 int 	SetKeyboard					(char KeyboardIdToChangeTo[]);
 int		GetCurrentKeyboard			(KeyboardProperties *currentKeyboard);
 bool  	ConnectionToScimPanelIsOpen ();
-bool 	GetCurrentInputContext		(ContextInfo& currentContext);
+int 	GetCurrentInputContext		(ContextInfo *currentContext);
 }
 
 #endif /*SCIM_PANELCONTROL_CLIENT_H_*/
