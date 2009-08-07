@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?fileVersion 4.0.0?>
+
+<cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+<storageModule moduleId="org.eclipse.cdt.core.settings">
+<cconfiguration id="cdt.managedbuild.config.gnu.so.debug.1656002855">
+<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.so.debug.1656002855" moduleId="org.eclipse.cdt.core.settings" name="Debug">
+<externalSettings>
+<externalSetting>
+<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/ScimPanelController"/>
+<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/ScimPanelController/Debug"/>
+</externalSetting>
+</externalSettings>
+<extensions>
+<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+<extension id="org.eclipse.cdt.core.MakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+</extensions>
+</storageModule>
+<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+<configuration artifactExtension="so" artifactName="scimpanelcontroller" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.sharedLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.sharedLib" cleanCommand="rm -rf" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="cdt.managedbuild.config.gnu.so.debug.1656002855" name="Debug" parent="cdt.managedbuild.config.gnu.so.debug">
+<folderInfo id="cdt.managedbuild.config.gnu.so.debug.1656002855.1913938893" name="/" resourcePath="">
+<toolChain id="cdt.managedbuild.toolchain.gnu.so.debug.1418735136" name="GCC Tool Chain" superClass="cdt.managedbuild.toolchain.gnu.so.debug">
+<targetPlatform id="cdt.managedbuild.target.gnu.platform.so.debug.1019517962" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.so.debug"/>
+<builder buildPath="${workspace_loc:/ScimPanelController/Debug}" id="cdt.managedbuild.target.gnu.builder.so.debug.1810093681" name="Gnu Make Builder.Debug" superClass="cdt.managedbuild.target.gnu.builder.so.debug"/>
+<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.so.debug.123206122" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.so.debug">
+<option id="gnu.cpp.compiler.option.include.paths.1310607181" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
+<listOptionValue builtIn="false" value="/usr/include/scim-1.0"/>
+</option>
+<option id="gnu.cpp.compiler.so.debug.option.optimization.level.1305432358" superClass="gnu.cpp.compiler.so.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
+<option id="gnu.cpp.compiler.so.debug.option.debugging.level.1338185807" superClass="gnu.cpp.compiler.so.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
+</tool>
+<tool id="cdt.managedbuild.tool.gnu.c.compiler.so.debug.1256046363" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.so.debug">
+<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.so.debug.option.optimization.level.1173985666" superClass="gnu.c.compiler.so.debug.option.optimization.level" valueType="enumerated"/>
+<option id="gnu.c.compiler.so.debug.option.debugging.level.71631640" superClass="gnu.c.compiler.so.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
+</tool>
+<tool id="cdt.managedbuild.tool.gnu.c.linker.so.debug.1460436490" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.so.debug">
+<option defaultValue="true" id="gnu.c.link.so.debug.option.shared.385841973" superClass="gnu.c.link.so.debug.option.shared" valueType="boolean"/>
+</tool>
+<tool id="cdt.managedbuild.tool.gnu.cpp.linker.so.debug.153511006" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.so.debug">
+<option id="gnu.cpp.link.option.libs.1856502516" superClass="gnu.cpp.link.option.libs" valueType="libs">
+<listOptionValue builtIn="false" value="scim-1.0"/>
+<listOptionValue builtIn="false" value="X11"/>
+</option>
+<option defaultValue="true" id="gnu.cpp.link.so.debug.option.shared.1619061761" superClass="gnu.cpp.link.so.debug.option.shared" valueType="boolean"/>
+</tool>
+<tool id="cdt.managedbuild.tool.gnu.assembler.so.debug.1759147456" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.so.debug"/>
+<tool id="cdt.managedbuild.tool.gnu.archiver.base.214208469" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
+</toolChain>
+</folderInfo>
+</configuration>
+</storageModule>
+<storageModule moduleId="scannerConfiguration"/>
+</cconfiguration>
+<cconfiguration id="cdt.managedbuild.config.gnu.so.release.942408860">
+<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.so.release.942408860" moduleId="org.eclipse.cdt.core.settings" name="Release">
+<externalSettings>
+<externalSetting>
+<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/ScimPanelController"/>
+<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/ScimPanelController/Release"/>
+</externalSetting>
+</externalSettings>
+<extensions>
+<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+<extension id="org.eclipse.cdt.core.MakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+</extensions>
+</storageModule>
+<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+<configuration artifactExtension="so" artifactName="ScimPanelController" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.sharedLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.sharedLib" cleanCommand="rm -rf" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="cdt.managedbuild.config.gnu.so.release.942408860" name="Release" parent="cdt.managedbuild.config.gnu.so.release">
+<folderInfo id="cdt.managedbuild.config.gnu.so.release.942408860.699894866" name="/" resourcePath="">
+<toolChain id="cdt.managedbuild.toolchain.gnu.so.release.108473524" name="GCC Tool Chain" superClass="cdt.managedbuild.toolchain.gnu.so.release">
+<targetPlatform id="cdt.managedbuild.target.gnu.platform.so.release.530918396" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.so.release"/>
+<builder buildPath="${workspace_loc:/ScimPanelController/Release}" id="cdt.managedbuild.target.gnu.builder.so.release.380531153" name="Gnu Make Builder.Release" superClass="cdt.managedbuild.target.gnu.builder.so.release"/>
+<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.so.release.479270465" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.so.release">
+<option id="gnu.cpp.compiler.so.release.option.optimization.level.120484512" superClass="gnu.cpp.compiler.so.release.option.optimization.level" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
+<option id="gnu.cpp.compiler.so.release.option.debugging.level.1352205546" superClass="gnu.cpp.compiler.so.release.option.debugging.level" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
+</tool>
+<tool id="cdt.managedbuild.tool.gnu.c.compiler.so.release.574762364" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.so.release">
+<option defaultValue="gnu.c.optimization.level.most" id="gnu.c.compiler.so.release.option.optimization.level.128196905" superClass="gnu.c.compiler.so.release.option.optimization.level" valueType="enumerated"/>
+<option id="gnu.c.compiler.so.release.option.debugging.level.1508566999" superClass="gnu.c.compiler.so.release.option.debugging.level" value="gnu.c.debugging.level.none" valueType="enumerated"/>
+</tool>
+<tool id="cdt.managedbuild.tool.gnu.c.linker.so.release.1846922877" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.so.release">
+<option defaultValue="true" id="gnu.c.link.so.release.option.shared.232900660" superClass="gnu.c.link.so.release.option.shared" valueType="boolean"/>
+</tool>
+<tool id="cdt.managedbuild.tool.gnu.cpp.linker.so.release.1109105370" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.so.release">
+<option defaultValue="true" id="gnu.cpp.link.so.release.option.shared.692163753" superClass="gnu.cpp.link.so.release.option.shared" valueType="boolean"/>
+</tool>
+<tool id="cdt.managedbuild.tool.gnu.assembler.so.release.1579147506" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.so.release"/>
+<tool id="cdt.managedbuild.tool.gnu.archiver.base.1614297240" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
+</toolChain>
+</folderInfo>
+</configuration>
+</storageModule>
+</cconfiguration>
+</storageModule>
+<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+<project id="ScimPanelController.cdt.managedbuild.target.gnu.so.886309064" name="Shared Library (Gnu)" projectType="cdt.managedbuild.target.gnu.so"/>
+</storageModule>
+</cproject>
