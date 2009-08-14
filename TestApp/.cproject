@@ -36,7 +36,7 @@
 <tool id="cdt.managedbuild.tool.gnu.c.linker.exe.debug.960161449" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.debug"/>
 <tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.812424839" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
 <option id="gnu.cpp.link.option.libs.17933094" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
-<listOptionValue builtIn="false" value="scimpanelcontroller"/>
+<listOptionValue builtIn="false" value="scimpanelcontroller-1.0"/>
 </option>
 <option id="gnu.cpp.link.option.paths.1905190742" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 <listOptionValue builtIn="false" value="/usr/local/lib"/>
