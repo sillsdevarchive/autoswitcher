@@ -1,0 +1,2 @@
+The Scim-panel-controller package is a means of controlling the scim panel (i,e, scim-panel-gtk) programatically.
+Thus it is possible to get a list of installed keyboard layouts and change the layout as needed.
