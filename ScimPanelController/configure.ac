@@ -6,6 +6,19 @@ AC_INIT([Scim Panelcontroller], [1.0.0], [tim_armstrong@sil.org])
 AC_CONFIG_SRCDIR([src/scim_panelcontrol_client.cpp])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
+
+
+MAJOR_VERSION=1
+MINOR_VERSION=0
+MAJOR_MINOR=$MAJOR_VERSION.$MINOR_VERSION
+
+LIBRARY_NAME=scimpanelcontroller-$MAJOR_MINOR
+
+AC_SUBST(MAJOR_VERSION)
+AC_SUBST(MINOR_VERSION)
+AC_SUBST(MAJOR_MINOR)
+AC_SUBST(LIBRARY_NAME)
+
 AM_INIT_AUTOMAKE
 
 # Checks for programs.
@@ -14,7 +27,7 @@ AC_PROG_CC
 LT_INIT
 
 # Checks for libraries.
-PKG_CHECK_MODULES(SCIM, scim >= 1.4.7)
+PKG_CHECK_MODULES(SCIM, scim >= 1.4.7,[echo $MAJOR_VERSION])
 AC_SUBST(SCIM_CFLAGS)
 AC_SUBST(SCIM_LIBS)
 
@@ -31,5 +44,6 @@ AC_CHECK_FUNCS([select])
 AC_CONFIG_FILES([
 	Makefile
 	src/Makefile
+	scimpanelcontroller.pc
 	])
 AC_OUTPUT
