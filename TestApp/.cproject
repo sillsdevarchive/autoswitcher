@@ -22,7 +22,7 @@
 <builder buildPath="${workspace_loc:/ScimPanelControlTestApp/Debug}" id="cdt.managedbuild.target.gnu.builder.exe.debug.852693629" keepEnvironmentInBuildfile="false" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.exe.debug"/>
 <tool id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.1634670508" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug">
 <option id="gnu.cpp.compiler.option.include.paths.1692697516" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-<listOptionValue builtIn="false" value="/usr/local/include"/>
+<listOptionValue builtIn="false" value="/usr/include"/>
 </option>
 <option id="gnu.cpp.compiler.exe.debug.option.optimization.level.1544354574" name="Optimization Level" superClass="gnu.cpp.compiler.exe.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 <option id="gnu.cpp.compiler.exe.debug.option.debugging.level.1622762181" name="Debug Level" superClass="gnu.cpp.compiler.exe.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
@@ -39,7 +39,7 @@
 <listOptionValue builtIn="false" value="scimpanelcontroller-1.0"/>
 </option>
 <option id="gnu.cpp.link.option.paths.1905190742" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
-<listOptionValue builtIn="false" value="/usr/local/lib"/>
+<listOptionValue builtIn="false" value="/usr/lib"/>
 </option>
 <inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1793342275" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 <additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>

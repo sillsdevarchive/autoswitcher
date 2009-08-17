@@ -6,7 +6,7 @@ localedir=@datadir@/locale
 datadir=@datadir@
 sysconfdir=@sysconfdir@
 
-Name: SCIM Panel Controller
+Name: SCIM Panelcontroller
 Description: Smart Common Input Method platform
 Version: @MAJOR_MINOR@
 Requires: SCIM >= 1.4.7
