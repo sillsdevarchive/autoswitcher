@@ -12,6 +12,7 @@
 </externalSetting>
 </externalSettings>
 <extensions>
+<extension id="org.eclipse.linuxtools.cdt.autotools.AutotoolsScannerInfoProvider" point="org.eclipse.cdt.core.ScannerInfoProvider"/>
 <extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 <extension id="org.eclipse.cdt.core.MakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 <extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
@@ -72,6 +73,7 @@
 </externalSetting>
 </externalSettings>
 <extensions>
+<extension id="org.eclipse.linuxtools.cdt.autotools.AutotoolsScannerInfoProvider" point="org.eclipse.cdt.core.ScannerInfoProvider"/>
 <extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 <extension id="org.eclipse.cdt.core.MakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 <extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
