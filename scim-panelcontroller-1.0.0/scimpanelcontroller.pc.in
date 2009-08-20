@@ -4,11 +4,12 @@ libdir=@libdir@
 includedir=@includedir@
 localedir=@datadir@/locale
 datadir=@datadir@
+datarootdir=@datarootdir@
 sysconfdir=@sysconfdir@
 
 Name: SCIM Panelcontroller
 Description: Smart Common Input Method platform
 Version: @MAJOR_MINOR@
-Requires: SCIM >= 1.4.7
+Requires: SCIM >= @REQUIRED_SCIM_VERSION@
 Libs: -L${libdir} -l@LIBRARY_NAME@
 Cflags: -I${includedir}
