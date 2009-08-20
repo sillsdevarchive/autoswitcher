@@ -2,7 +2,7 @@ Source: scim-panelcontroller
 Section: utils
 Priority: optional
 Maintainer: Tim Armstrong <tim_armstrong@sil.org>
-Build-Depends: cdbs, libscim-dev (>=1.4.7-3ubuntu12sil1), libx11-dev
+Build-Depends: cdbs, libscim-dev (>=1.4.8~1sil), libx11-dev
 Standards-Version: 3.7.3
 
 Package: scim-panelcontroller
