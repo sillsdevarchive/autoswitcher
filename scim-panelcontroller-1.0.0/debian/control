@@ -7,7 +7,7 @@ Standards-Version: 3.7.3
 
 Package: scim-panelcontroller
 Architecture: any
-Depends: ${shlibs:Depends}
+Depends: ${shlibs:Depends}, scim (>=1.4.8-1sil)
 Description: library that allows programmatic IM switching for SCIM
  The Scim Panelcontroller allows programs to request a list of and switch
  between SCIM input methods.
