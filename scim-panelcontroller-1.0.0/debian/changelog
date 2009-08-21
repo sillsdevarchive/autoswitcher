@@ -1,3 +1,9 @@
+scim-panelcontroller (1.0.0+nmu1) jaunty; urgency=low
+
+  * Changed package dependency
+
+ -- Timothy Armstrong <tim_armstrong@sil.org>  Fri, 21 Aug 2009 10:59:14 +0700
+
 scim-panelcontroller (1.0.0) jaunty; urgency=low
 
   * Initial release.
