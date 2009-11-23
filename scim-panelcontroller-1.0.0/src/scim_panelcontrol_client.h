@@ -31,7 +31,7 @@ struct ContextInfo
 bool 	OpenConnectionToScimPanel	();
 int 	CloseConnectionToScimPanel	();
 int 	GetListOfSupportedKeyboards	(KeyboardProperties supportedKeyboards[], int maxNumberOfKeyboards, int* numberOfReturnedKeyboards);
-int 	SetKeyboard					(char KeyboardIdToChangeTo[]);
+int 	SetKeyboard					(const char *keyboardIdToChangeTo);
 int		GetCurrentKeyboard			(KeyboardProperties *currentKeyboard);
 bool  	ConnectionToScimPanelIsOpen ();
 int 	GetCurrentInputContext		(ContextInfo *currentContext);

@@ -118,7 +118,7 @@ int GetListOfSupportedKeyboards (KeyboardProperties supportedKeyboards[], int ma
 	return return_status;
 }
 
-int SetKeyboard (char KeyboardIdToChangeTo[MAXSTRINGLENGTH])
+int SetKeyboard (const char *keyboardIdToChangeTo)
 {
 #ifdef DEBUG
 	cout << "SetKeyboard" << endl;
@@ -136,10 +136,10 @@ int SetKeyboard (char KeyboardIdToChangeTo[MAXSTRINGLENGTH])
 	if (currentContext.frontendClient == -1 && currentContext.context == 0)
 		return SCIM_AUTOSWITCHER_PANEL_NO_CURRENT_INPUT_CONTEXT;
 
-	if (!uuidIsValid(KeyboardIdToChangeTo)) return SCIM_AUTOSWITCHER_PANEL_INVALID_KEYBOARD_ID;
+	if (!uuidIsValid(keyboardIdToChangeTo)) return SCIM_AUTOSWITCHER_PANEL_INVALID_KEYBOARD_ID;
 	writeTransactionHeader();
 	m_send_trans.put_command (SCIM_TRANS_CMD_CONTROLLER_CHANGE_FACTORY);
-	m_send_trans.put_data (KeyboardIdToChangeTo);
+	m_send_trans.put_data (keyboardIdToChangeTo);
 	sendTransaction();
 	return_status = wait_for_response_from_agent();
 
