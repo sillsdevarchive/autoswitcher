@@ -2,12 +2,12 @@ Source: scim-panelcontroller
 Section: utils
 Priority: optional
 Maintainer: Tim Armstrong <tim_armstrong@sil.org>
-Build-Depends: cdbs, libscim-dev (>=1.4.8~1sil), libx11-dev
+Build-Depends: cdbs, libscim-dev (>=1.4.9-2sil2), libx11-dev
 Standards-Version: 3.7.3
 
 Package: scim-panelcontroller
 Architecture: any
-Depends: ${shlibs:Depends}, scim (>=1.4.8~1sil)
+Depends: ${shlibs:Depends}, scim (>=1.4.9-2sil2), libscim8c2a (>=1.4.9-2sil2)
 Description: library that allows programmatic IM switching for SCIM
  The Scim Panelcontroller allows programs to request a list of and switch
  between SCIM input methods.

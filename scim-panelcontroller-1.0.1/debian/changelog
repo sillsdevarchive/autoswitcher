@@ -1,3 +1,9 @@
+scim-panelcontroller (1.0.1) jaunty; urgency=low
+
+  * Minor code change. Updated debian package to depend on 1.4.9-2sil2
+
+ -- Timothy Armstrong <tim_armstrong@sil.org>  Thu, 17 Dec 2009 11:02:27 +0700
+
 scim-panelcontroller (1.0.0+nmu1) jaunty; urgency=low
 
   * Changed package dependency

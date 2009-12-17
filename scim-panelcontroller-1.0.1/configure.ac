@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.63])
-AC_INIT([Scim Panelcontroller], [1.0.0], [tim_armstrong@sil.org])
+AC_INIT([Scim Panelcontroller], [1.0.1], [tim_armstrong@sil.org])
 AC_CONFIG_SRCDIR([src/scim_panelcontrol_client.cpp])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -11,7 +11,7 @@ AC_CONFIG_MACRO_DIR([m4])
 MAJOR_VERSION=1
 MINOR_VERSION=0
 MAJOR_MINOR=$MAJOR_VERSION.$MINOR_VERSION
-REQUIRED_SCIM_VERSION=1.4.8
+REQUIRED_SCIM_VERSION=1.4.9
 
 LIBRARY_NAME=scimpanelcontroller-$MAJOR_MINOR
 
